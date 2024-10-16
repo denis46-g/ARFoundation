@@ -18,12 +18,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
+using UnityEngine.UI;
 
 public class PackageSpawner : MonoBehaviour
 {
     public DrivingSurfaceManager DrivingSurfaceManager;
     public PackageBehaviour Package;
     public GameObject PackagePrefab;
+
+    public int PackageCount;
+
+    // Ссылка на текстовый элемент для вывода счётчика
+    public Text scoreText;
+
+    private void UpdateScoreText()
+    {
+        if (PackageCount == 1)
+            scoreText.text = "Destroyed Gifts: " + 0;
+        else
+            scoreText.text = "Destroyed Gifts: " + (PackageCount - 1).ToString();
+    }
 
     public static Vector3 RandomInTriangle(Vector3 v1, Vector3 v2)
     {
@@ -66,7 +80,11 @@ public class PackageSpawner : MonoBehaviour
         {
             if (Package == null)
             {
+                PackageCount++;
                 SpawnPackage(lockedPlane);
+
+                // Обновляем текст при каждом появлении нового подарка
+                UpdateScoreText();
             }
 
             var packagePosition = Package.gameObject.transform.position;

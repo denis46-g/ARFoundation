@@ -54,13 +54,17 @@ public class ReticleBehaviour : MonoBehaviour
                 ? hits[0]
                 // Otherwise use the locked plane, if it's there.
                 : hits.SingleOrDefault(x => x.trackableId == lockedPlane.trackableId);
-            if (hit.HasValue)
-            {
-                CurrentPlane = DrivingSurfaceManager.PlaneManager.GetPlane(hit.Value.trackableId);
-                // Move this reticle to the location of the hit.
-                transform.position = hit.Value.pose.position;
-            }
-            Child.SetActive(CurrentPlane != null);
+            //Debug.Log("current plane -" + CurrentPlane);
+            
         }
+
+        if (hit.HasValue)
+        {
+            CurrentPlane = DrivingSurfaceManager.PlaneManager.GetPlane(hit.Value.trackableId);
+            // Move this reticle to the location of the hit.
+            transform.position = hit.Value.pose.position;
+        }
+        //Debug.Log("current plane -"+CurrentPlane);
+        Child.SetActive(CurrentPlane != null);
     }
 }
